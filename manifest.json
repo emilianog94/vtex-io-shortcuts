@@ -1,0 +1,31 @@
+{
+    "name": "VTEX IO Shortcuts",
+    "description": "Set of tools in order to save time while developing on VTEX IO",
+    "version": "1.0",
+    "manifest_version": 2,
+    "background": {
+        "scripts": ["background.js"]
+    },
+	"web_accessible_resources": [
+        "images/*.png"
+	],
+    "icons": {
+        "16": "/images/16.png",
+        "32": "/images/32.png",
+        "48": "/images/48.png",
+        "128": "/images/128.png"
+    },
+
+    "permissions": ["storage", "activeTab","tabs"],
+    "content_scripts": [
+		{ 
+			"matches": ["https://*.myvtex.com/*"],
+			"exclude_matches": ["https://*.myvtex.com/admin/*"],
+			"run_at": "document_idle",
+			"js": ["js/page.js"],
+			"css": ["css/styles.css"]
+		}
+    ]
+
+
+  }
