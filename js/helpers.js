@@ -2,8 +2,6 @@
 
 const handleProductWidget = () => { 
     const widget = document.querySelector('.contenedor-extension.producto');
-    console.log("verifico si existe el widget de producto:");
-    console.log(widget);
     widget ? (widget.href = getProductUrl()) : renderProductWidget() ;
 }
 
@@ -14,8 +12,6 @@ const removeProductWidget = () => {
 
 const getProductUrl = () => {
     const rawProductData = document.querySelector('.vtex-product-context-provider script[type="application/ld+json"]');
-    console.log("el raw product data es");
-    console.log(rawProductData);
     const jsonData = JSON.parse(rawProductData.innerHTML);
     const sku = jsonData.mpn;
     const vendor = window.location.host;
@@ -25,7 +21,6 @@ const getProductUrl = () => {
 // Renderizado de Widget en el DOM
 const renderProductWidget = () => {
     const body = document.querySelector('body');
-    console.log("se ejecuta la func de renderizadoo");
     const elemento = `
         <a href="${getProductUrl()}" target="_blank" class="contenedor-extension producto">
             <img src="${productIcon}" />
