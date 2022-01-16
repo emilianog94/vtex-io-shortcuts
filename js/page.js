@@ -74,7 +74,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 
 // First run
 handleWidget();
-handleProductWidget();
+// handleProductWidget();
 
 
 

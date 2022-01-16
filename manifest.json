@@ -24,7 +24,13 @@
 			"run_at": "document_idle",
 			"js": ["js/page.js"],
 			"css": ["css/styles.css"]
+		},
+		{ 
+			"matches": ["https://*.myvtex.com/*/p*"],
+			"run_at": "document_idle",
+			"js": ["js/product.js"]
 		}
+
     ]
 
 
