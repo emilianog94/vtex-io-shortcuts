@@ -12,6 +12,8 @@ const removeWidget = () => {
 
 const getProductUrl = () => {
     const rawProductData = document.querySelector('.vtex-product-context-provider script[type="application/ld+json"]');
+    console.log("el raw product data es");
+    console.log(rawProductData);
     const jsonData = JSON.parse(rawProductData.innerHTML);
     const sku = jsonData.mpn;
     const vendor = window.location.host;
@@ -77,11 +79,11 @@ handleProductWidget();
 
 
 MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-const observer = new MutationObserver(function(mutations, observer) {
+const observer = new MutationObserver(function() {
     removeWidget();
     console.log("cambio el DOM")
     const urlCheck = document.querySelector('.render-container');
-    const isOnPdp = urlCheck.classList.contains('render-route-store-product')
+    const isOnPdp = urlCheck.classList.contains('render-route-store-product');
     console.log(isOnPdp);
     isOnPdp && handleProductWidget();
 });
