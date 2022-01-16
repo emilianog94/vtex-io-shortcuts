@@ -19,17 +19,29 @@
     "permissions": ["storage", "activeTab","tabs"],
     "content_scripts": [
 
+
 		{ 
 			"matches": ["https://*.myvtex.com/*"],
 			"exclude_matches": ["https://*.myvtex.com/admin/*"],
 			"run_at": "document_idle",
-			"js": ["js/icons.js","js/helpers.js","js/observer.js","js/page.js"],
+			"js": ["js/icons.js","js/helpers.js","js/observer.js"],
 			"css": ["css/styles.css"]
+		},
+		{ 
+			"matches": ["https://*.myvtex.com/*"],
+			"exclude_matches": ["https://*.myvtex.com/checkout*","https://*.myvtex.com/admin/*"],
+			"run_at": "document_idle",
+			"js": ["js/page.js"]
 		},
 		{ 
 			"matches": ["https://*.myvtex.com/*/p*"],
 			"run_at": "document_idle",
 			"js": ["js/product.js"]
+		},
+        { 
+			"matches": ["https://*.myvtex.com/checkout*"],
+			"run_at": "document_idle",
+			"js": ["js/checkout.js"]
 		}
 
     ]

@@ -60,3 +60,32 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         handleSiteEditorWidget();
     }
 });
+
+
+
+// Checkout Functions
+
+const handleCheckoutWidget = () => { 
+    const widget = document.querySelector('.contenedor-extension.checkout');
+    !widget && renderCheckoutWidget() ;
+}
+
+const removeCheckoutWidget = () => {
+    const widget = document.querySelector('.contenedor-extension.checkout');
+    widget && widget.remove();
+}
+
+const getCheckoutUrl = () => {
+    const vendor = window.location.host;
+    return (`https://${vendor}/admin/vtex-checkout-ui-custom/`);
+}
+
+// Renderizado de Widget en el DOM
+const renderCheckoutWidget = () => {
+    const body = document.querySelector('body');
+    const elemento = `
+        <a href="${getCheckoutUrl()}" target="_blank" class="contenedor-extension checkout">
+            <img src="${checkoutIcon}" />
+        </a>`;
+    body.insertAdjacentHTML('afterend',elemento);
+}
