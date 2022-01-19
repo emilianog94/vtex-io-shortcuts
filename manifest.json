@@ -2,13 +2,14 @@
     "name": "VTEX IO Shortcuts",
     "description": "Set of tools in order to save time while developing on VTEX IO",
     "version": "1.0",
-    "manifest_version": 2,
+    "manifest_version": 3,
     "background": {
-        "scripts": ["background.js"]
+        "service_worker": "background.js"
     },
-	"web_accessible_resources": [
-        "images/*.png"
-	],
+	"web_accessible_resources": [{ 
+		"resources": ["images/*.png"],
+		"matches": ["<all_urls>"]
+	}],
     "icons": {
         "16": "/images/16.png",
         "32": "/images/32.png",
@@ -16,7 +17,7 @@
         "128": "/images/128.png"
     },
 
-    "permissions": ["storage", "activeTab","tabs"],
+    "permissions": ["tabs"],
     "content_scripts": [
 
 
