@@ -39,7 +39,7 @@
     padding-right: 1.5rem;
     top: 0;
     left: -30%;
-    height: calc(100% - 13rem);
+    max-height: calc(100% - 13rem);
     z-index: 5000000;
     overflow-y: scroll;
     background: #fff;

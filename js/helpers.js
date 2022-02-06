@@ -18,13 +18,6 @@ const removeSkuWidget = () => {
 
 }
 
-const getProductId = () => {
-    const rawProductData = document.querySelector('.vtex-product-context-provider script[type="application/ld+json"]');
-    const jsonData = JSON.parse(rawProductData.innerHTML);
-    const productId = jsonData.mpn;
-    return productId;
-}
-
 const getSkuUrl = (sku) => {
     const vendor = window.location.host;
     return (`https://${vendor}/admin/Site/SkuForm.aspx?IdSku=${sku}`);
@@ -32,11 +25,7 @@ const getSkuUrl = (sku) => {
 
 const renderSkuWidget = () => {
     const body = document.querySelector('body');
-    const productId = getProductId();
-
-    console.log("el productid es");
-    console.log(productId);
-
+    
     const elemento =/*html*/`
         <div class="contenedor-extension sku">
             <img src="${skuIcon}" />
@@ -46,40 +35,55 @@ const renderSkuWidget = () => {
     const listado =/*html*/ 
         `<div class="listado-skus"></div>`
 
-
     !document.querySelector('.listado-skus') && body.insertAdjacentHTML('afterend',listado);
-
-    body.insertAdjacentHTML('afterend',elemento);
-    const botonSku = document.querySelector('.contenedor-extension.sku');
     const listadoElemento = document.querySelector('.listado-skus');
-
-    botonSku.addEventListener('click',function(){
-        listadoElemento.classList.toggle('activo');
-    })
 
     const options = {
         method: 'GET',
         headers: {'Content-Type': 'application/json', Accept: 'application/json'}
     };
 
-    if(!document.querySelector('.listado-skus').hasChildNodes()){
-        fetch(`/api/catalog_system/pub/products/variations/${productId}`, options)
+    const options2 = {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'X-VTEX-API-AppKey': '-',
+          'X-VTEX-API-AppToken': '-'
+        }
+      };
+      
+    fetch(`/api/catalog_system/pub/products/search${window.location.pathname}`, options2)
         .then(response => response.json())
         .then(response => {
-            response.skus.map(sku => {
-                item = /*html*/ `
-                    <div class="sku-particular">
-                        <a href="${getSkuUrl(sku.sku)}" target="_blank">
-                            <p>${sku.skuname}</p>
-                            <img src="${sku.image}"/>                           
-                        </a>
-                    </div>`;
-                listadoElemento.insertAdjacentHTML('afterbegin',item);
-            })
+            const productId = response[0].productId;
+            if(!document.querySelector('.listado-skus').hasChildNodes()){
+                fetch(`/api/catalog_system/pub/products/variations/${productId}`, options)
+                .then(response => response.json())
+                .then(response => {
+                    response.skus.map(sku => {
+                        item = /*html*/ `
+                            <div class="sku-particular">
+                                <a href="${getSkuUrl(sku.sku)}" target="_blank">
+                                    <p>${sku.skuname}</p>
+                                    <img src="${sku.image}"/>                           
+                                </a>
+                            </div>`;
+                        listadoElemento.insertAdjacentHTML('afterbegin',item);
+                    })
+                })
+                .catch(err => console.error(err));   
+            }
         })
-        .catch(err => console.error(err));   
-    }
+        .catch(err => console.error(err));
+    
 
+    body.insertAdjacentHTML('afterend',elemento);
+    const botonSku = document.querySelector('.contenedor-extension.sku');
+
+    botonSku.addEventListener('click',function(){
+        listadoElemento.classList.toggle('activo');
+    })
 }
 
 
