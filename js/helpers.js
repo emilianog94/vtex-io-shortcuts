@@ -2,11 +2,6 @@
 
 const handleSkuWidget = () => { 
     const widget = document.querySelector('.contenedor-extension.sku');
-    if(widget){
-        console.log("ya existe el widget");
-    } else{
-        console.log("noe xiste el widget");
-    }
     !widget && renderSkuWidget();
 }
 
@@ -26,34 +21,30 @@ const getSkuUrl = (sku) => {
 const renderSkuWidget = () => {
     const body = document.querySelector('body');
     
+    // Botón para desplegar SKUs
     const elemento =/*html*/`
         <div class="contenedor-extension sku">
             <img src="${skuIcon}" />
         </div>
         `;
+    body.insertAdjacentHTML('afterend',elemento);
+    const botonSku = document.querySelector('.contenedor-extension.sku');
+    botonSku.addEventListener('click',function(){
+        listadoElemento.classList.toggle('activo');
+    })
 
-    const listado =/*html*/ 
-        `<div class="listado-skus"></div>`
-
+    // Desplegable de SKUs
+    const listado =/*html*/ `<div class="listado-skus"></div>`;
     !document.querySelector('.listado-skus') && body.insertAdjacentHTML('afterend',listado);
     const listadoElemento = document.querySelector('.listado-skus');
 
+    // Fetch de datos del producto
     const options = {
         method: 'GET',
         headers: {'Content-Type': 'application/json', Accept: 'application/json'}
     };
-
-    const options2 = {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'X-VTEX-API-AppKey': '-',
-          'X-VTEX-API-AppToken': '-'
-        }
-      };
       
-    fetch(`/api/catalog_system/pub/products/search${window.location.pathname}`, options2)
+    fetch(`/api/catalog_system/pub/products/search${window.location.pathname}`, options)
         .then(response => response.json())
         .then(response => {
             const productId = response[0].productId;
@@ -76,14 +67,6 @@ const renderSkuWidget = () => {
             }
         })
         .catch(err => console.error(err));
-    
-
-    body.insertAdjacentHTML('afterend',elemento);
-    const botonSku = document.querySelector('.contenedor-extension.sku');
-
-    botonSku.addEventListener('click',function(){
-        listadoElemento.classList.toggle('activo');
-    })
 }
 
 
