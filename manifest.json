@@ -17,6 +17,7 @@
         "128": "/images/128.png"
     },
 
+
     "permissions": ["tabs"],
     "content_scripts": [
 

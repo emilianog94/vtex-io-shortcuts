@@ -1,5 +1,89 @@
 // PDP Functions
 
+const handleSkuWidget = () => { 
+    const widget = document.querySelector('.contenedor-extension.sku');
+    if(widget){
+        console.log("ya existe el widget");
+    } else{
+        console.log("noe xiste el widget");
+    }
+    !widget && renderSkuWidget();
+}
+
+const removeSkuWidget = () => {
+    const widget = document.querySelector('.contenedor-extension.sku');
+    const listado = document.querySelector('.listado-skus');
+    widget && widget.remove();
+    listado && listado.remove();
+
+}
+
+const getProductId = () => {
+    const rawProductData = document.querySelector('.vtex-product-context-provider script[type="application/ld+json"]');
+    const jsonData = JSON.parse(rawProductData.innerHTML);
+    const productId = jsonData.mpn;
+    return productId;
+}
+
+const getSkuUrl = (sku) => {
+    const vendor = window.location.host;
+    return (`https://${vendor}/admin/Site/SkuForm.aspx?IdSku=${sku}`);
+}
+
+const renderSkuWidget = () => {
+    const body = document.querySelector('body');
+    const productId = getProductId();
+
+    console.log("el productid es");
+    console.log(productId);
+
+    const elemento =/*html*/`
+        <div class="contenedor-extension sku">
+            <img src="${skuIcon}" />
+        </div>
+        `;
+
+    const listado =/*html*/ 
+        `<div class="listado-skus"></div>`
+
+
+    !document.querySelector('.listado-skus') && body.insertAdjacentHTML('afterend',listado);
+
+    body.insertAdjacentHTML('afterend',elemento);
+    const botonSku = document.querySelector('.contenedor-extension.sku');
+    const listadoElemento = document.querySelector('.listado-skus');
+
+    botonSku.addEventListener('click',function(){
+        listadoElemento.classList.toggle('activo');
+    })
+
+    const options = {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json', Accept: 'application/json'}
+    };
+
+    if(!document.querySelector('.listado-skus').hasChildNodes()){
+        fetch(`/api/catalog_system/pub/products/variations/${productId}`, options)
+        .then(response => response.json())
+        .then(response => {
+            response.skus.map(sku => {
+                item = /*html*/ `
+                    <div class="sku-particular">
+                        <a href="${getSkuUrl(sku.sku)}" target="_blank">
+                            <p>${sku.skuname}</p>
+                            <img src="${sku.image}"/>                           
+                        </a>
+                    </div>`;
+                listadoElemento.insertAdjacentHTML('afterbegin',item);
+            })
+        })
+        .catch(err => console.error(err));   
+    }
+
+}
+
+
+
 const handleProductWidget = () => { 
     const widget = document.querySelector('.contenedor-extension.producto');
     widget ? (widget.href = getProductUrl()) : renderProductWidget() ;
@@ -9,6 +93,7 @@ const removeProductWidget = () => {
     const widget = document.querySelector('.contenedor-extension.producto');
     widget && widget.remove();
 }
+
 
 const getProductUrl = () => {
     const rawProductData = document.querySelector('.vtex-product-context-provider script[type="application/ld+json"]');
@@ -24,7 +109,9 @@ const renderProductWidget = () => {
     const elemento = `
         <a href="${getProductUrl()}" target="_blank" class="contenedor-extension producto">
             <img src="${productIcon}" />
-        </a>`;
+        </a>
+        `;
+
     body.insertAdjacentHTML('afterend',elemento);
 }
 
