@@ -27,7 +27,7 @@ const renderSkuWidget = () => {
             <p class="descripcion">Ver variantes de SKU</p>
         </div>
         `;
-    body.insertAdjacentHTML('afterend',elemento);
+    body.insertAdjacentHTML('beforeend',elemento);
     const botonSku = document.querySelector('.contenedor-extension.sku');
     botonSku.addEventListener('click',function(){
         listadoElemento.classList.toggle('activo');
@@ -35,7 +35,7 @@ const renderSkuWidget = () => {
 
     // Desplegable de SKUs
     const listado =/*html*/ `<div class="listado-skus"></div>`;
-    !document.querySelector('.listado-skus') && body.insertAdjacentHTML('afterend',listado);
+    !document.querySelector('.listado-skus') && body.insertAdjacentHTML('beforeend',listado);
     const listadoElemento = document.querySelector('.listado-skus');
 
     // Fetch de datos del producto
@@ -98,7 +98,7 @@ const renderProductWidget = () => {
         </a>
         `;
 
-    body.insertAdjacentHTML('afterend',elemento);
+    body.insertAdjacentHTML('beforeend',elemento);
 }
 
 
@@ -119,7 +119,7 @@ const renderSiteEditorWidget = () => {
             <img src="${editIcon}" />
             <p class="descripcion">Ver en Site Editor</p>
         </a>`;
-    body.insertAdjacentHTML('afterend',elemento);
+    body.insertAdjacentHTML('beforeend',elemento);
 }
 
 // Actualizaciones de Widget
@@ -162,5 +162,5 @@ const renderCheckoutWidget = () => {
             <img src="${checkoutIcon}" />
             <p class="descripcion">Abrir Checkout UI Custom</p>
         </a>`;
-    body.insertAdjacentHTML('afterend',elemento);
+    body.insertAdjacentHTML('beforeend',elemento);
 }

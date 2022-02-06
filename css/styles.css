@@ -63,6 +63,11 @@
     cursor: pointer;
 }
 
+.contenedor-extension.checkout{
+    width: 28px;
+    height: 28px;
+}
+
 .contenedor-extension:hover{
     transform: scale(1.10);
 }
