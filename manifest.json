@@ -1,7 +1,7 @@
 {
     "name": "VTEX IO Shortcuts",
     "description": "Set of tools in order to save time while developing on VTEX IO",
-    "version": "1.0",
+    "version": "1.10",
     "manifest_version": 3,
     "background": {
         "service_worker": "background.js"
