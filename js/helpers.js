@@ -10,7 +10,6 @@ const removeSkuWidget = () => {
     const listado = document.querySelector('.listado-skus');
     widget && widget.remove();
     listado && listado.remove();
-
 }
 
 const getSkuUrl = (sku) => {
@@ -53,7 +52,6 @@ const renderSkuWidget = () => {
                 fetch(`/api/catalog_system/pub/products/variations/${productId}`, options)
                 .then(response => response.json())
                 .then(response => {
-                    console.log(response);
                     response.skus.map(sku => {
                         item = /*html*/ `
                             <div class="sku-particular">
@@ -72,7 +70,6 @@ const renderSkuWidget = () => {
 }
 
 
-
 const handleProductWidget = () => { 
     const widget = document.querySelector('.contenedor-extension.producto');
     widget ? (widget.href = getProductUrl()) : renderProductWidget() ;
@@ -82,7 +79,6 @@ const removeProductWidget = () => {
     const widget = document.querySelector('.contenedor-extension.producto');
     widget && widget.remove();
 }
-
 
 const getProductUrl = () => {
     const rawProductData = document.querySelector('.vtex-product-context-provider script[type="application/ld+json"]');
