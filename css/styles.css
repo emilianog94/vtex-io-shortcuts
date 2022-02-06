@@ -1,3 +1,18 @@
+@font-face {
+    font-family: 'Robotoo';
+    font-style: normal;
+    font-weight: 400;
+    src: url('chrome-extension://__MSG_@@extension_id__/fonts/Roboto-Regular.ttf'); 
+   }
+
+@font-face {
+    font-family: 'RobotooBold';
+    font-style: normal;
+    font-weight: 700;
+    src: url('chrome-extension://__MSG_@@extension_id__/fonts/Roboto-Bold.ttf'); 
+}
+
+
 .contenedor-extension{
     display: flex;
     background: #F71963;
@@ -18,6 +33,31 @@
     bottom: 5rem;
 }
 
+.contenedor-extension .descripcion{
+    width: 200px;
+    height: 39px;
+    position: absolute;
+    left: 3rem;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0rem 0.5rem 1rem;
+    font-size: 0.8rem;
+    color: rgb(63, 63, 64);
+    font-family: 'Robotoo';
+    background: #fff;
+    border-left: 2px solid #F71963;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    box-shadow: rgb(0 0 0 / 7%) 0px 1px 2px, rgb(0 0 0 / 7%) 0px 2px 4px, rgb(0 0 0 / 7%) 0px 4px 8px, rgb(0 0 0 / 7%) 0px 8px 16px, rgb(0 0 0 / 7%) 0px 16px 32px, rgb(0 0 0 / 7%) 0px 32px 64px;
+    opacity: 0;
+    transition: all .25s ease;
+    pointer-events: none;
+}
+
+.contenedor-extension:hover .descripcion{
+    opacity: 1;
+}
+
 .contenedor-extension.sku{
     bottom: 8.5rem;
     cursor: pointer;
@@ -33,17 +73,18 @@
 
 .listado-skus{
     display: block;
-    width: 30%;
     position: fixed;
+    left: -30%;
+    bottom: 12rem;
+    width: 30%;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
-    top: 0;
-    left: -30%;
     max-height: calc(100% - 13rem);
     z-index: 5000000;
     overflow-y: scroll;
     background: #fff;
     transition: all .25s ease;
+    border-left: 2px solid #F71963;
     box-shadow: 0 1px 2px rgba(0,0,0,0.07), 
                 0 2px 4px rgba(0,0,0,0.07), 
                 0 4px 8px rgba(0,0,0,0.07), 
@@ -53,7 +94,7 @@
 }
 
 .listado-skus.activo{
-    left: 0%;
+    left: 5.2rem;
 }
 
 .listado-skus .sku-particular{
@@ -70,6 +111,7 @@
 
 .listado-skus .sku-particular a{
     display: flex;
+    font-family: 'Robotoo';
     align-items: center;
     color: #3f3f40;
     text-decoration: none;

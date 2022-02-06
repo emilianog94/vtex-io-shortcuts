@@ -25,6 +25,7 @@ const renderSkuWidget = () => {
     const elemento =/*html*/`
         <div class="contenedor-extension sku">
             <img src="${skuIcon}" />
+            <p class="descripcion">Ver variantes de SKU</p>
         </div>
         `;
     body.insertAdjacentHTML('afterend',elemento);
@@ -52,11 +53,12 @@ const renderSkuWidget = () => {
                 fetch(`/api/catalog_system/pub/products/variations/${productId}`, options)
                 .then(response => response.json())
                 .then(response => {
+                    console.log(response);
                     response.skus.map(sku => {
                         item = /*html*/ `
                             <div class="sku-particular">
                                 <a href="${getSkuUrl(sku.sku)}" target="_blank">
-                                    <p>${sku.skuname}</p>
+                                    <p>${sku.skuname} - <b>${sku.sku}</b></p>
                                     <img src="${sku.image}"/>                           
                                 </a>
                             </div>`;
@@ -93,9 +95,10 @@ const getProductUrl = () => {
 // Renderizado de Widget en el DOM
 const renderProductWidget = () => {
     const body = document.querySelector('body');
-    const elemento = `
+    const elemento = /*html*/ `
         <a href="${getProductUrl()}" target="_blank" class="contenedor-extension producto">
             <img src="${productIcon}" />
+            <p class="descripcion">Ver Producto General</p>
         </a>
         `;
 
@@ -118,6 +121,7 @@ const renderSiteEditorWidget = () => {
     const elemento = `
         <a href="${getSiteEditorUrl()}" target="_blank" class="contenedor-extension pagina">
             <img src="${editIcon}" />
+            <p class="descripcion">Ver en Site Editor</p>
         </a>`;
     body.insertAdjacentHTML('afterend',elemento);
 }
@@ -160,6 +164,7 @@ const renderCheckoutWidget = () => {
     const elemento = `
         <a href="${getCheckoutUrl()}" target="_blank" class="contenedor-extension checkout">
             <img src="${checkoutIcon}" />
+            <p class="descripcion">Abrir Checkout UI Custom</p>
         </a>`;
     body.insertAdjacentHTML('afterend',elemento);
 }
