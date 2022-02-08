@@ -133,6 +133,15 @@
     margin-left: 1.2rem;
 }
 
+.listado-skus .sku-particular a img.false{
+    opacity: 0.25;
+}
+
+.listado-skus .sku-particular .sku-availability{
+    display: block;
+    margin-top: 0.5rem;
+}
+
 
 .listado-skus::-webkit-scrollbar-track
 {

@@ -53,11 +53,16 @@ const renderSkuWidget = () => {
                 .then(response => response.json())
                 .then(response => {
                     response.skus.map(sku => {
+                        console.log(response);
                         item = /*html*/ `
                             <div class="sku-particular">
                                 <a href="${getSkuUrl(sku.sku)}" target="_blank">
-                                    <p>${sku.skuname} - <b>${sku.sku}</b></p>
-                                    <img src="${sku.image}"/>                           
+                                    <p>
+                                        ${sku.skuname} <br> 
+                                        <b>SKU ${sku.sku}</b><br>
+                                        <span class="sku-availability">${sku.available ? "✅ Stock disponible" : "❌ Fuera de stock"}</span>
+                                    </p>
+                                    <img class=${sku.available} src="${sku.image}"/>                           
                                 </a>
                             </div>`;
                         listadoElemento.insertAdjacentHTML('afterbegin',item);
