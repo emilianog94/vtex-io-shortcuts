@@ -1,7 +1,7 @@
 {
     "name": "VTEX IO Shortcuts",
     "description": "Set of shortcuts so you can work faster on VTEX IO stores",
-    "version": "1.20",
+    "version": "2.0",
     "manifest_version": 3,
     "background": {
         "service_worker": "background.js"
@@ -25,14 +25,14 @@
 
 		{ 
 			"matches": ["https://*.myvtex.com/*"],
-			"exclude_matches": ["https://*.myvtex.com/admin/*"],
+			"exclude_matches": ["https://*.myvtex.com/admin/*","https://*.myvtex.com/_v*"],
 			"run_at": "document_idle",
 			"js": ["js/icons.js","js/helpers.js","js/observer.js"],
 			"css": ["css/styles.css"]
 		},
 		{ 
 			"matches": ["https://*.myvtex.com/*"],
-			"exclude_matches": ["https://*.myvtex.com/checkout*","https://*.myvtex.com/admin/*"],
+			"exclude_matches": ["https://*.myvtex.com/checkout*","https://*.myvtex.com/admin/*","https://*.myvtex.com/_v*"],
 			"run_at": "document_idle",
 			"js": ["js/page.js"]
 		},

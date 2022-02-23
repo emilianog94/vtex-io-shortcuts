@@ -53,13 +53,14 @@ const renderSkuWidget = () => {
                 .then(response => response.json())
                 .then(response => {
                     response.skus.map(sku => {
-                        console.log(response);
+                        const nombreProductId = response.name;
+                        const nombreSkuId = (sku.skuname).replace(`${nombreProductId} - `, ''); 
                         item = /*html*/ `
                             <div class="sku-particular">
                                 <a href="${getSkuUrl(sku.sku)}" target="_blank">
                                     <p>
-                                        ${sku.skuname} <br> 
-                                        <b>SKU ${sku.sku}</b><br>
+                                        VARIANTE ${nombreSkuId} <br> 
+                                        <b>SKU ID ${sku.sku}</b><br>
                                         <span class="sku-availability">${sku.available ? "✅ Stock disponible" : "❌ Fuera de stock"}</span>
                                     </p>
                                     <img class=${sku.available} src="${sku.image}"/>                           
