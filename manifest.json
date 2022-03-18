@@ -42,9 +42,10 @@
 			"js": ["js/product.js"]
 		},
         { 
-			"matches": ["https://*.myvtex.com/checkout*"],
+			"matches": ["https://*.myvtex.com/checkout/*"],
 			"run_at": "document_idle",
-			"js": ["js/checkout.js"]
+			"js": ["js/jquery-3.6.0.min.js","js/jquery.json-viewer.js","js/checkout.js"],
+			"css": ["css/jquery.json-viewer.css"]
 		}
 
     ]
