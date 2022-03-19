@@ -32,7 +32,7 @@
 		},
 		{ 
 			"matches": ["https://*.myvtex.com/*"],
-			"exclude_matches": ["https://*.myvtex.com/checkout*","https://*.myvtex.com/admin/*","https://*.myvtex.com/_v*"],
+			"exclude_matches": ["https://*.myvtex.com/checkout/*","https://*.myvtex.com/admin/*","https://*.myvtex.com/_v*"],
 			"run_at": "document_idle",
 			"js": ["js/page.js"]
 		},

@@ -170,3 +170,64 @@ const renderCheckoutWidget = () => {
         </a>`;
     body.insertAdjacentHTML('beforeend',elemento);
 }
+
+
+const handleCheckoutOrderFormWidget = () => { 
+    const widget = document.querySelector('.contenedor-extension.orderform');
+    !widget && renderCheckoutOrderFormWidget();
+    widget && updateWidget();
+}
+
+const removeCheckoutOrderFormWidget = () => {
+    const widget = document.querySelector('.contenedor-extension.orderform');
+    const editorOrderForm = document.querySelector('.orderform-json-container');
+    widget && widget.remove();
+    editorOrderForm && editorOrderForm.remove();
+}
+
+const fetchOrderForm = () => {
+    const options = {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json', Accept: 'application/json'}
+    };
+
+    fetch(`/api/checkout/pub/orderForm/`, options)
+    .then(response => response.json())
+    .then(response => {
+        $('#json-renderer').jsonViewer(response, {collapsed: true, rootCollapsable: false});
+    })
+    .catch(err => console.error(err));
+}
+
+const renderCheckoutOrderFormWidget = () => {
+
+    const body = document.querySelector('body');
+    
+    // Botón para desplegar SKUs
+    const elemento =/*html*/`
+        <div class="contenedor-extension orderform">
+            <img src="${orderFormIcon}" />
+            <p class="descripcion">Ver OrderForm en formato JSON</p>
+        </div>
+        `;
+    body.insertAdjacentHTML('beforeend',elemento);
+
+    const botonOrderForm = document.querySelector('.contenedor-extension.orderform');
+    botonOrderForm.addEventListener('click',function(){
+        contenedorJson.classList.toggle('activo');
+    })
+
+    // Desplegable de SKUs
+    const contenedorJsonHtml =/*html*/ `
+    <div class="contenedor-json-renderer">
+        <button id="json-updater">Actualizar OrderForm</button>
+        <pre id="json-renderer"></pre>
+    </div>`;
+    !document.querySelector('.contenedor-json-renderer') && body.insertAdjacentHTML('beforeend',contenedorJsonHtml);
+    const contenedorJson = document.querySelector('.contenedor-json-renderer');
+    const updater = document.querySelector("#json-updater");
+    updater.addEventListener('click',fetchOrderForm);
+
+    // Fetch de datos del producto
+    fetchOrderForm();
+}
