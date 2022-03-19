@@ -165,7 +165,7 @@ const renderCheckoutWidget = () => {
     const body = document.querySelector('body');
     const elemento = `
         <a href="${getCheckoutUrl()}" target="_blank" class="contenedor-extension checkout">
-            <img src="${checkoutIcon}" />
+            <img src="${editIcon}" />
             <p class="descripcion">Abrir Checkout UI Custom</p>
         </a>`;
     body.insertAdjacentHTML('beforeend',elemento);

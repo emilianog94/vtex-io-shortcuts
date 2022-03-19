@@ -1,5 +1,2 @@
 handleProductWidget();
 handleSkuWidget();
-
-
-
