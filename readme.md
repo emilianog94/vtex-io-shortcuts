@@ -13,7 +13,7 @@ Currently supporting the following shortcuts:
 ## Site Editor Shortcuts
 Site Editor shortcut for every page
 
-![](https://i.imgur.com/Jet17JV.gif)
+![](https://i.imgur.com/WJrdGPJ.gif)
 
 
 <br /> <br /> 
@@ -21,7 +21,7 @@ Site Editor shortcut for every page
 ## Product Data Shortcuts
 Access to the global ProductID whenever you are browsing a **store.product** template
 
-![](https://i.imgur.com/HfcyKKJ.gif)
+![](https://i.imgur.com/asaeY2M.gif)
 
 <br /> <br /> 
 
@@ -29,10 +29,19 @@ Access to the global ProductID whenever you are browsing a **store.product** tem
 ## Variation SKU's shortcuts
 Access to any variation SKU whenever you are browsing a **store.product** template. Variations SKUs data is fetched using the public Catalogue Variations API.
 
-![](https://i.imgur.com/cvkTnNk.gif)
+![](https://i.imgur.com/aBxRaEh.gif)
 
 <br /> <br /> 
 
-## Checkout Shortcuts
+
+## OrderForm JSON Shortcut
+Read the OrderForm as a JSON object while browsing the checkout/cart page
+
+![](https://i.imgur.com/C1ENukD.gif)
+
+<br /> <br /> 
+
+## Checkout UI Custom Shortcut
 Access to Checkout UI Custom whenever you are on the checkout/cart page
 
+![](https://i.imgur.com/ZqmDx9N.gif)
