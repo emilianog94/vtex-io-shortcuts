@@ -9,6 +9,35 @@ const options = {
 
 // PDP Functions
 
+
+const pruebaProductData = () => {
+    const vendor = window.location.host;
+    const currentUrl = window.location.pathname;
+    const endpoint = `https://${vendor}/api/catalog_system/pub/products/search${currentUrl}`;
+
+    fetch(endpoint,options)
+        .then(response => response.json())
+        .then(response => {
+            console.log("probandooo")
+            console.log(response);
+            console.log("el productid es");
+            console.log(response[0].productId);
+            console.log("Las categorias son");
+            console.table(response[0].categories);
+            console.log("Los clusters son");
+            console.table(response[0].productClusters);
+
+            console.log("Titulo de producto");
+            console.log(response[0].productName);
+
+            console.log("las especificaciones son");
+            console.table(response[0].allSpecifications)
+    });
+}
+
+pruebaProductData()
+
+
 const handleSkuWidget = () => { 
     const widget = document.querySelector('.contenedor-extension.sku');
     !widget && renderSkuWidget();
@@ -48,33 +77,26 @@ const renderSkuWidget = () => {
     const listadoElemento = document.querySelector('.listado-skus');
 
     // Fetch de datos del producto
-      
     fetch(`/api/catalog_system/pub/products/search${window.location.pathname}`, options)
         .then(response => response.json())
         .then(response => {
-            const productId = response[0].productId;
             if(!document.querySelector('.listado-skus').hasChildNodes()){
-                fetch(`/api/catalog_system/pub/products/variations/${productId}`, options)
-                .then(response => response.json())
-                .then(response => {
-                    response.skus.map(sku => {
-                        const nombreProductId = response.name;
-                        const nombreSkuId = (sku.skuname).replace(`${nombreProductId} - `, ''); 
+                    response[0].items.map(sku => {
+                        const nombreProductId = response[0].productName;
+                        const nombreSkuId = (sku.name).replace(`${nombreProductId} - `, ''); 
                         item = /*html*/ `
                             <div class="sku-particular">
-                                <a href="${getSkuUrl(sku.sku)}" target="_blank">
+                                <a href="${getSkuUrl(sku.itemId)}" target="_blank">
                                     <p>
                                         VARIANTE ${nombreSkuId} <br> 
-                                        <b>SKU ID ${sku.sku}</b><br>
-                                        <span class="sku-availability">${sku.available ? "✅ Stock disponible" : "❌ Fuera de stock"}</span>
+                                        <b>SKU ID ${sku.itemId}</b><br>
+                                        <span class="sku-availability">${sku.sellers[0].commertialOffer.IsAvailable ? `✅ ${sku.sellers[0].commertialOffer.AvailableQuantity} unidades disponibles` : "❌ Fuera de stock"}</span>
                                     </p>
-                                    <img class=${sku.available} src="${sku.image}"/>                           
+                                    <img class=${sku.sellers[0].commertialOffer.IsAvailable} src="${sku.images[0].imageUrl}"/>                           
                                 </a>
                             </div>`;
                         listadoElemento.insertAdjacentHTML('afterbegin',item);
                     })
-                })
-                .catch(err => console.error(err));   
             }
         })
         .catch(err => console.error(err));
@@ -90,8 +112,6 @@ const handleProductWidget = () => {
         .then(response => response.json())
         .then(response => {
             const productId = response[0].productId;
-            console.log("el productid es");
-            console.log(productId);
             renderProductWidget(`https://${vendor}/admin/Site/ProdutoForm.aspx?id=${productId}`)
     });
 }
