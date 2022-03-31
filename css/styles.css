@@ -183,6 +183,37 @@ div.contenedor-json-renderer.activo{
 }
 
 
+.listado-skus .close-container{
+    position: sticky;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    background: #fff;
+    padding: 0.5rem 1.4rem;
+    border-bottom: 1px solid #eeee;
+    font-weight: 400;
+    font-size: 0.9rem;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.listado-skus .close-container span{
+    color: #F71963;
+    font-weight: 500;
+}
+
+.listado-skus .close-container img{
+    width: 10px;
+    transition: all .25s ease;;
+}
+
+.listado-skus .close-container img:hover{
+    transform: scale(1.1)
+}
+
+
 .listado-skus::-webkit-scrollbar-track , .contenedor-json-renderer::-webkit-scrollbar-track
 {
 	background-color: #F5F5F5;
@@ -199,3 +230,10 @@ div.contenedor-json-renderer.activo{
 	background-color: #ccc;
 }
 
+.render-provider{
+    transition: opacity .25s ease;
+}
+
+.out-of-focus{
+    opacity: 0.5;
+}

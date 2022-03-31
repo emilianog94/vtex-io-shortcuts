@@ -58,7 +58,8 @@ const getSkuUrl = (sku) => {
 
 const renderSkuWidget = () => {
     const body = document.querySelector('body');
-    
+    const renderContainer = document.querySelector('.render-provider');
+
     // Botón para desplegar SKUs
     const elemento =/*html*/`
         <div class="contenedor-extension sku">
@@ -70,18 +71,33 @@ const renderSkuWidget = () => {
     const botonSku = document.querySelector('.contenedor-extension.sku');
     botonSku.addEventListener('click',function(){
         listadoElemento.classList.toggle('activo');
+        renderContainer.classList.toggle('out-of-focus');
     })
 
     // Desplegable de SKUs
-    const listado =/*html*/ `<div class="listado-skus"></div>`;
-    !document.querySelector('.listado-skus') && body.insertAdjacentHTML('beforeend',listado);
+    const listado =/*html*/ `
+    <div class="listado-skus">
+        <div class="close-container">
+            <span>Listado de SKUs</span>
+            <img src="${closeIcon}" alt="" />
+        </div>
+    </div>`;
+
+    if(!document.querySelector('.listado-skus')){
+        body.insertAdjacentHTML('beforeend',listado);
+        const closeButton = document.querySelector('.close-container img');
+        closeButton.addEventListener('click', function(){
+            listadoElemento.classList.toggle('activo');
+            renderContainer.classList.toggle('out-of-focus');
+        })
+    }
     const listadoElemento = document.querySelector('.listado-skus');
 
     // Fetch de datos del producto
     fetch(`/api/catalog_system/pub/products/search${window.location.pathname}`, options)
         .then(response => response.json())
         .then(response => {
-            if(!document.querySelector('.listado-skus').hasChildNodes()){
+            if(!document.querySelector('.listado-skus').querySelector('.sku-particular')){
                     response[0].items.map(sku => {
                         const nombreProductId = response[0].productName;
                         const nombreSkuId = (sku.name).replace(`${nombreProductId} - `, ''); 
@@ -91,12 +107,12 @@ const renderSkuWidget = () => {
                                     <p>
                                         VARIANTE ${nombreSkuId} <br> 
                                         <b>SKU ID ${sku.itemId}</b><br>
-                                        <span class="sku-availability">${sku.sellers[0].commertialOffer.IsAvailable ? `✅ ${sku.sellers[0].commertialOffer.AvailableQuantity} unidades disponibles` : "❌ Fuera de stock"}</span>
+                                        <span class="sku-availability">${sku.sellers[0].commertialOffer.IsAvailable ? `✅ ${sku.sellers[0].commertialOffer.AvailableQuantity} unidades en stock` : "❌ Fuera de stock"}</span>
                                     </p>
                                     <img class=${sku.sellers[0].commertialOffer.IsAvailable} src="${sku.images[0].imageUrl}"/>                           
                                 </a>
                             </div>`;
-                        listadoElemento.insertAdjacentHTML('afterbegin',item);
+                        listadoElemento.insertAdjacentHTML('beforeend',item);
                     })
             }
         })
