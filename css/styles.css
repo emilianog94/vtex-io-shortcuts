@@ -27,6 +27,7 @@
     align-items: center;
     justify-content: center;
     transition: all .25s ease;
+    text-transform: none;
 }
 
 .contenedor-extension.producto{
@@ -81,12 +82,11 @@
 }
 
 div.contenedor-json-renderer{
-    left: -40%;
-    top: 1rem;
+    right: -40%;
+    top: 0;
     width: 38%;
     max-height: 100%;
     padding: 0;
-    bottom: 9rem;
 }
 
 #json-updater{
@@ -99,6 +99,7 @@ div.contenedor-json-renderer{
     padding: 0.5rem 0;
     transition: all .25s ease;
     font-family: 'Robotoo';
+    z-index: 2;
 }
 
 #json-updater:hover{
@@ -110,18 +111,19 @@ div.contenedor-json-renderer{
 }
 
 div.contenedor-json-renderer.activo{
-    left: 2.5rem;
+    right: 0;
 }
 
 .listado-skus, .contenedor-json-renderer{
+    text-transform: none;
     display: block;
     position: fixed;
-    left: -30%;
-    bottom: 12rem;
+    right: -50%;
+    top: 0;
     width: 30%;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
-    max-height: calc(100% - 13rem);
+    height: 100%;
     z-index: 5000000;
     overflow-y: scroll;
     background: #fff;
@@ -136,7 +138,7 @@ div.contenedor-json-renderer.activo{
 }
 
 .listado-skus.activo{
-    left: 5.2rem;
+    right: 0;
 }
 
 .listado-skus .sku-particular{
