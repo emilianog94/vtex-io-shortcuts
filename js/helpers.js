@@ -10,6 +10,7 @@ const options = {
 // PDP Functions
 
 
+// Funcion in progress
 const pruebaProductData = () => {
     const vendor = window.location.host;
     const currentUrl = window.location.pathname;
@@ -35,7 +36,7 @@ const pruebaProductData = () => {
     });
 }
 
-pruebaProductData()
+// pruebaProductData()
 
 
 const handleSkuWidget = () => { 
