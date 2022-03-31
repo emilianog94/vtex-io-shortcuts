@@ -28,6 +28,7 @@
     justify-content: center;
     transition: all .25s ease;
     text-transform: none;
+    letter-spacing: 0;
 }
 
 .contenedor-extension.producto{
@@ -116,6 +117,7 @@ div.contenedor-json-renderer.activo{
 
 .listado-skus, .contenedor-json-renderer{
     text-transform: none;
+    letter-spacing: 0;
     display: block;
     position: fixed;
     right: -50%;
@@ -176,18 +178,18 @@ div.contenedor-json-renderer.activo{
 }
 
 
-.listado-skus::-webkit-scrollbar-track
+.listado-skus::-webkit-scrollbar-track , .contenedor-json-renderer::-webkit-scrollbar-track
 {
 	background-color: #F5F5F5;
 }
 
-.listado-skus::-webkit-scrollbar
+.listado-skus::-webkit-scrollbar, .contenedor-json-renderer::-webkit-scrollbar
 {
 	width: 6px;
 	background-color: #F5F5F5;
 }
 
-.listado-skus::-webkit-scrollbar-thumb
+.listado-skus::-webkit-scrollbar-thumb, .contenedor-json-renderer::-webkit-scrollbar-thumb
 {
 	background-color: #ccc;
 }
