@@ -121,8 +121,6 @@ div.contenedor-json-renderer.activo{
     right: -50%;
     top: 0;
     width: 30%;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
     height: 100%;
     z-index: 5000000;
     overflow-y: scroll;
@@ -145,25 +143,21 @@ div.contenedor-json-renderer.activo{
     font-family: sans-serif;
     font-size: 0.8rem;
     border-bottom: 1px solid #eee;
-    padding-bottom: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.listado-skus .sku-particular:first-child{
-    margin-top: 1.5rem;
+    padding: .5rem 1.5rem;
+    transition: all 0.25s ease;
 }
 
 .listado-skus .sku-particular a{
     display: flex;
     font-family: 'Robotoo';
     align-items: center;
+    justify-content: space-between;
     color: #3f3f40;
     text-decoration: none;
-    transition: all 0.25s ease;
 }
 
-.listado-skus .sku-particular a:hover{
-    color:#F71963;
+.listado-skus .sku-particular:hover{
+    background-color: #eee;
 }
 
 .listado-skus .sku-particular a img{

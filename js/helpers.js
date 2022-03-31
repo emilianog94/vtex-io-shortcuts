@@ -1,3 +1,12 @@
+
+// Fetch helper
+
+const options = {
+    method: 'GET',
+    headers: {'Content-Type': 'application/json', Accept: 'application/json'}
+};
+
+
 // PDP Functions
 
 const handleSkuWidget = () => { 
@@ -39,10 +48,6 @@ const renderSkuWidget = () => {
     const listadoElemento = document.querySelector('.listado-skus');
 
     // Fetch de datos del producto
-    const options = {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json', Accept: 'application/json'}
-    };
       
     fetch(`/api/catalog_system/pub/products/search${window.location.pathname}`, options)
         .then(response => response.json())
@@ -77,8 +82,18 @@ const renderSkuWidget = () => {
 
 
 const handleProductWidget = () => { 
-    const widget = document.querySelector('.contenedor-extension.producto');
-    widget ? (widget.href = getProductUrl()) : renderProductWidget() ;
+    const vendor = window.location.host;
+    const currentUrl = window.location.pathname;
+    const endpoint = `https://${vendor}/api/catalog_system/pub/products/search${currentUrl}`;
+
+    fetch(endpoint,options)
+        .then(response => response.json())
+        .then(response => {
+            const productId = response[0].productId;
+            console.log("el productid es");
+            console.log(productId);
+            renderProductWidget(`https://${vendor}/admin/Site/ProdutoForm.aspx?id=${productId}`)
+    });
 }
 
 const removeProductWidget = () => {
@@ -86,23 +101,18 @@ const removeProductWidget = () => {
     widget && widget.remove();
 }
 
-const getProductUrl = () => {
-    const rawProductData = document.querySelector('.vtex-product-context-provider script[type="application/ld+json"]');
-    const jsonData = JSON.parse(rawProductData.innerHTML);
-    const sku = jsonData.mpn;
-    const vendor = window.location.host;
-    return (`https://${vendor}/admin/Site/ProdutoForm.aspx?id=${sku}`);
-}
+
 
 // Renderizado de Widget en el DOM
-const renderProductWidget = () => {
+const renderProductWidget = (url) => {
     const body = document.querySelector('body');
+
     const elemento = /*html*/ `
-        <a href="${getProductUrl()}" target="_blank" class="contenedor-extension producto">
-            <img src="${productIcon}" />
-            <p class="descripcion">Ver Producto General</p>
-        </a>
-        `;
+    <a href="${url}" target="_blank" class="contenedor-extension producto">
+        <img src="${productIcon}" />
+        <p class="descripcion">Editar Producto</p>
+    </a>
+    `;
 
     body.insertAdjacentHTML('beforeend',elemento);
 }
@@ -123,7 +133,7 @@ const renderSiteEditorWidget = () => {
     const elemento = `
         <a href="${getSiteEditorUrl()}" target="_blank" class="contenedor-extension pagina">
             <img src="${editIcon}" />
-            <p class="descripcion">Ver en Site Editor</p>
+            <p class="descripcion">Editar en Site Editor</p>
         </a>`;
     body.insertAdjacentHTML('beforeend',elemento);
 }
@@ -186,11 +196,6 @@ const removeCheckoutOrderFormWidget = () => {
 }
 
 const fetchOrderForm = () => {
-    const options = {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json', Accept: 'application/json'}
-    };
-
     fetch(`/api/checkout/pub/orderForm/`, options)
     .then(response => response.json())
     .then(response => {
