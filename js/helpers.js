@@ -130,7 +130,10 @@ const renderProductWidget = (url) => {
     const elemento = /*html*/ `
     <a href="${url}" target="_blank" class="contenedor-extension producto">
         <img src="${productIcon}" />
-        <p class="descripcion">Editar Producto</p>
+        <p class="descripcion">
+            <span>Editar Producto</span>
+            <img src="${externalLinkIcon}"/>
+        </p>
     </a>
     `;
 
@@ -150,10 +153,13 @@ const getSiteEditorUrl = () => {
 // Renderizado de Widget en el DOM
 const renderSiteEditorWidget = () => {
     const body = document.querySelector('body');
-    const elemento = `
+    const elemento = /*html*/`
         <a href="${getSiteEditorUrl()}" target="_blank" class="contenedor-extension pagina">
             <img src="${editIcon}" />
-            <p class="descripcion">Editar en Site Editor</p>
+            <p class="descripcion">
+                <span>Editar en Site Editor</span>
+                <img src="${externalLinkIcon}"/>
+            </p>
         </a>`;
     body.insertAdjacentHTML('beforeend',elemento);
 }
@@ -193,10 +199,13 @@ const getCheckoutUrl = () => {
 // Renderizado de Widget en el DOM
 const renderCheckoutWidget = () => {
     const body = document.querySelector('body');
-    const elemento = `
+    const elemento = /*html*/`
         <a href="${getCheckoutUrl()}" target="_blank" class="contenedor-extension checkout">
             <img src="${editIcon}" />
-            <p class="descripcion">Abrir Checkout UI Custom</p>
+            <p class="descripcion">
+                <span>Editar Checkout UI Custom</span>
+                <img src="${externalLinkIcon}"/>
+            </p>
         </a>`;
     body.insertAdjacentHTML('beforeend',elemento);
 }

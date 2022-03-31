@@ -37,23 +37,28 @@
 
 .contenedor-extension .descripcion{
     width: 200px;
-    height: 39px;
     position: absolute;
     left: 3rem;
     display: flex;
     align-items: center;
-    padding: 0.5rem 0rem 0.5rem 1rem;
+    justify-content: space-between;
+    padding: 12px 0rem 12px 1rem;
     font-size: 0.8rem;
     color: rgb(63, 63, 64);
     font-family: 'Robotoo';
     background: #fff;
     border-left: 2px solid #F71963;
-    border-top-right-radius: 0.25rem;
-    border-bottom-right-radius: 0.25rem;
     box-shadow: rgb(0 0 0 / 7%) 0px 1px 2px, rgb(0 0 0 / 7%) 0px 2px 4px, rgb(0 0 0 / 7%) 0px 4px 8px, rgb(0 0 0 / 7%) 0px 8px 16px, rgb(0 0 0 / 7%) 0px 16px 32px, rgb(0 0 0 / 7%) 0px 32px 64px;
     opacity: 0;
     transition: all .25s ease;
     pointer-events: none;
+}
+
+.contenedor-extension .descripcion img{
+    width: 10px;
+    margin-left: 0.25rem;
+    margin-top: -3px;
+    margin-right: 1rem;
 }
 
 .contenedor-extension:hover .descripcion{
