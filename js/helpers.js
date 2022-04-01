@@ -9,36 +9,6 @@ const options = {
 
 // PDP Functions
 
-
-// Funcion in progress
-const pruebaProductData = () => {
-    const vendor = window.location.host;
-    const currentUrl = window.location.pathname;
-    const endpoint = `https://${vendor}/api/catalog_system/pub/products/search${currentUrl}`;
-
-    fetch(endpoint,options)
-        .then(response => response.json())
-        .then(response => {
-            console.log("probandooo")
-            console.log(response);
-            console.log("el productid es");
-            console.log(response[0].productId);
-            console.log("Las categorias son");
-            console.table(response[0].categories);
-            console.log("Los clusters son");
-            console.table(response[0].productClusters);
-
-            console.log("Titulo de producto");
-            console.log(response[0].productName);
-
-            console.log("las especificaciones son");
-            console.table(response[0].allSpecifications)
-    });
-}
-
-// pruebaProductData()
-
-
 const handleSkuWidget = () => { 
     const widget = document.querySelector('.contenedor-extension.sku');
     !widget && renderSkuWidget();
@@ -85,7 +55,7 @@ const renderSkuWidget = () => {
 
     if(!document.querySelector('.listado-skus')){
         body.insertAdjacentHTML('beforeend',listado);
-        const closeButton = document.querySelector('.close-container img');
+        const closeButton = document.querySelector('.listado-skus .close-container img');
         closeButton.addEventListener('click', function(){
             listadoElemento.classList.toggle('activo');
             renderContainer.classList.toggle('out-of-focus');
@@ -119,6 +89,109 @@ const renderSkuWidget = () => {
         .catch(err => console.error(err));
 }
 
+
+const handleContextWidget = () => { 
+    const widget = document.querySelector('.contenedor-extension.context');
+    !widget && renderContextWidget();
+}
+
+const removeContextWidget = () => {
+    const widget = document.querySelector('.contenedor-extension.context');
+    const listado = document.querySelector('.listado-context');
+    widget && widget.remove();
+    listado && listado.remove();
+}
+
+const renderContextWidget = () => {
+    const body = document.querySelector('body');
+    const renderContainer = document.querySelector('.render-provider');
+
+    // Botón para desplegar Context
+    const elemento =/*html*/`
+        <div class="contenedor-extension context">
+            <img src="${contextIcon}" />
+            <p class="descripcion">Ver datos del producto</p>
+        </div>
+        `;
+    body.insertAdjacentHTML('beforeend',elemento);
+    const botonContext = document.querySelector('.contenedor-extension.context');
+    botonContext.addEventListener('click',function(){
+        console.log("clickee botoncontext");
+        listadoElemento.classList.toggle('activo');
+        renderContainer.classList.toggle('out-of-focus');
+    })
+
+    // Desplegable de Context
+    const listado =/*html*/ `
+    <div class="listado-context">
+        <div class="close-container">
+            <span>Datos del Producto</span>
+            <img src="${closeIcon}" alt="" />
+        </div>
+    </div>`;
+
+    if(!document.querySelector('.listado-context')){
+        body.insertAdjacentHTML('beforeend',listado);
+        const closeButton = document.querySelector('.listado-context .close-container img');
+        closeButton.addEventListener('click', function(){
+            console.log("clickee boton cierre")
+            listadoElemento.classList.toggle('activo');
+            renderContainer.classList.toggle('out-of-focus');
+        })
+    }
+    const listadoElemento = document.querySelector('.listado-context');
+
+    // Fetch de datos del producto
+    fetch(`/api/catalog_system/pub/products/search${window.location.pathname}`, options)
+        .then(response => response.json())
+        .then(response => {
+
+                const productName = response[0].productName;
+                const productId = response[0].productId
+                const categories = response[0].categories;
+                const productClusters = Object.entries(response[0].productClusters);
+                const allSpecifications = response[0].allSpecifications.map(specification => 
+                    `${specification}&&${response[0][specification]}`.split('&&')
+                );
+
+                item = /*html*/`
+                    <div class="datos-contexto">
+                        <div class="data-list">
+                            <span class="data-key">Nombre del Producto</span>
+                            <span class="data-value">${productName}</span>
+                        </div>
+
+                        <div class="data-list">
+                            <span class="data-key">ID de Producto</span>
+                            <span class="data-value">${productId}</span>
+                        </div>
+
+                        <div class="data-list">
+                            <span class="data-key">Especificaciones asociadas</span>
+                            ${allSpecifications.map(specification => `<p class="data-array-item"> <span class="data-array-item-title">${specification[0]}</span>: ${specification[1]}</p class="data-array-item">`).join('')}
+                        </div>                          
+
+                        <div class="data-list">
+                            <span class="data-key">Categorías asociadas</span>
+                            ${categories.map(category =>`<p class="data-array-item">${category}</p>`).join('')}
+                        </div>
+
+                        <div class="data-list">
+                            <span class="data-key">Colecciones asociadas</span>
+                            ${productClusters.map(cluster => `
+                                <p class="data-array-item"> 
+                                    <a href="${window.location.origin}/${cluster[0]}?map=productClusterIds" target="_blank">${cluster[0]}</a> : ${cluster[1]}
+                                </p>`).join('')
+                            }
+                        </div>                      
+
+
+                    </div>`;
+                listadoElemento.insertAdjacentHTML('beforeend',item);
+            }
+        )
+        .catch(err => console.error(err));
+}
 
 const handleProductWidget = () => { 
     const vendor = window.location.host;
