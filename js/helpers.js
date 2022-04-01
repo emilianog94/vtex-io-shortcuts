@@ -116,7 +116,6 @@ const renderContextWidget = () => {
     body.insertAdjacentHTML('beforeend',elemento);
     const botonContext = document.querySelector('.contenedor-extension.context');
     botonContext.addEventListener('click',function(){
-        console.log("clickee botoncontext");
         listadoElemento.classList.toggle('activo');
         renderContainer.classList.toggle('out-of-focus');
     })
@@ -134,7 +133,6 @@ const renderContextWidget = () => {
         body.insertAdjacentHTML('beforeend',listado);
         const closeButton = document.querySelector('.listado-context .close-container img');
         closeButton.addEventListener('click', function(){
-            console.log("clickee boton cierre")
             listadoElemento.classList.toggle('activo');
             renderContainer.classList.toggle('out-of-focus');
         })
