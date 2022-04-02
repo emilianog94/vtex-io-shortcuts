@@ -1,3 +1,7 @@
+function sanitizeCategory(category){
+    return category.toLowerCase()
+        .replace(/ /g, '-');
+}
 
 // Fetch helper
 
@@ -5,6 +9,7 @@ const options = {
     method: 'GET',
     headers: {'Content-Type': 'application/json', Accept: 'application/json'}
 };
+
 
 
 // PDP Functions
@@ -143,12 +148,13 @@ const renderContextWidget = () => {
     fetch(`/api/catalog_system/pub/products/search${window.location.pathname}`, options)
         .then(response => response.json())
         .then(response => {
-
-                const productName = response[0].productName;
-                const productId = response[0].productId
-                const categories = response[0].categories;
-                const productClusters = Object.entries(response[0].productClusters);
-                const allSpecifications = response[0].allSpecifications.map(specification => 
+                const productName = response[0]?.productName;
+                const brand = response[0]?.brand;
+                const brandId = response[0]?.brandId;
+                const productId = response[0]?.productId;
+                const categories = response[0]?.categories;
+                const productClusters = Object.entries(response[0]?.productClusters);
+                const allSpecifications = response[0]?.allSpecifications?.map(specification => 
                     `${specification}&&${response[0][specification]}`.split('&&')
                 );
 
@@ -160,30 +166,52 @@ const renderContextWidget = () => {
                         </div>
 
                         <div class="data-list">
+                            <span class="data-key">Brand</span>
+                            <span class="data-value">${brand} (${brandId})</span>
+                        </div>
+                        
+
+                        <div class="data-list">
                             <span class="data-key">ID de Producto</span>
                             <span class="data-value">${productId}</span>
                         </div>
 
                         <div class="data-list">
                             <span class="data-key">Especificaciones asociadas</span>
-                            ${allSpecifications.map(specification => `<p class="data-array-item"> <span class="data-array-item-title">${specification[0]}</span>: ${specification[1]}</p class="data-array-item">`).join('')}
+
+                            ${allSpecifications && allSpecifications.length ?
+                                    allSpecifications.map(specification => `<p class="data-array-item"> <span class="data-array-item-title">${specification[0]}</span>: ${specification[1]}</p class="data-array-item">`).join('')
+                                :
+                                    `<p>No posee</p>`
+                            }
                         </div>                          
 
                         <div class="data-list">
                             <span class="data-key">Categorías asociadas</span>
-                            ${categories.map(category =>`<p class="data-array-item">${category}</p>`).join('')}
+                            ${categories && categories.length
+                                ?
+                                    categories.map(category =>
+                                    `<p class="data-array-item">
+                                        <a href="${window.location.origin}${sanitizeCategory(category)}" target="_blank">${category}</a>
+                                    </p>`).join('')
+                                :
+                                    `<p>No posee</p>`
+                            }
                         </div>
 
                         <div class="data-list">
                             <span class="data-key">Colecciones asociadas</span>
-                            ${productClusters.map(cluster => `
-                                <p class="data-array-item"> 
-                                    <a href="${window.location.origin}/${cluster[0]}?map=productClusterIds" target="_blank">${cluster[0]}</a> : ${cluster[1]}
-                                </p>`).join('')
+                            ${productClusters && productClusters.length
+                                ?
+                                    productClusters.map(cluster => `
+                                        <p class="data-array-item"> 
+                                            <a href="${window.location.origin}/${cluster[0]}?map=productClusterIds" target="_blank">${cluster[0]}</a> : ${cluster[1]}
+                                        </p>`).join('')
+                                                               
+                                :
+                                    `<p>No posee</p>`
                             }
                         </div>                      
-
-
                     </div>`;
                 listadoElemento.insertAdjacentHTML('beforeend',item);
             }
