@@ -1,3 +1,17 @@
+function sanitizeCategory(category){
+    return category.toLowerCase()
+        .replace(/ /g, '-');
+}
+
+// Fetch helper
+
+const options = {
+    method: 'GET',
+    headers: {'Content-Type': 'application/json', Accept: 'application/json'}
+};
+
+
+
 // PDP Functions
 
 const handleSkuWidget = () => { 
@@ -19,7 +33,8 @@ const getSkuUrl = (sku) => {
 
 const renderSkuWidget = () => {
     const body = document.querySelector('body');
-    
+    const renderContainer = document.querySelector('.render-provider');
+
     // Botón para desplegar SKUs
     const elemento =/*html*/`
         <div class="contenedor-extension sku">
@@ -31,54 +46,190 @@ const renderSkuWidget = () => {
     const botonSku = document.querySelector('.contenedor-extension.sku');
     botonSku.addEventListener('click',function(){
         listadoElemento.classList.toggle('activo');
+        renderContainer.classList.toggle('out-of-focus');
     })
 
     // Desplegable de SKUs
-    const listado =/*html*/ `<div class="listado-skus"></div>`;
-    !document.querySelector('.listado-skus') && body.insertAdjacentHTML('beforeend',listado);
+    const listado =/*html*/ `
+    <div class="listado-skus">
+        <div class="close-container">
+            <span>Listado de SKUs</span>
+            <img src="${closeIcon}" alt="" />
+        </div>
+    </div>`;
+
+    if(!document.querySelector('.listado-skus')){
+        body.insertAdjacentHTML('beforeend',listado);
+        const closeButton = document.querySelector('.listado-skus .close-container img');
+        closeButton.addEventListener('click', function(){
+            listadoElemento.classList.toggle('activo');
+            renderContainer.classList.toggle('out-of-focus');
+        })
+    }
     const listadoElemento = document.querySelector('.listado-skus');
 
     // Fetch de datos del producto
-    const options = {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json', Accept: 'application/json'}
-    };
-      
     fetch(`/api/catalog_system/pub/products/search${window.location.pathname}`, options)
         .then(response => response.json())
         .then(response => {
-            const productId = response[0].productId;
-            if(!document.querySelector('.listado-skus').hasChildNodes()){
-                fetch(`/api/catalog_system/pub/products/variations/${productId}`, options)
-                .then(response => response.json())
-                .then(response => {
-                    response.skus.map(sku => {
-                        const nombreProductId = response.name;
-                        const nombreSkuId = (sku.skuname).replace(`${nombreProductId} - `, ''); 
+            if(!document.querySelector('.listado-skus').querySelector('.sku-particular')){
+                    response[0].items.map(sku => {
+                        const nombreProductId = response[0].productName;
+                        const nombreSkuId = (sku.name).replace(`${nombreProductId} - `, ''); 
                         item = /*html*/ `
                             <div class="sku-particular">
-                                <a href="${getSkuUrl(sku.sku)}" target="_blank">
+                                <a href="${getSkuUrl(sku.itemId)}" target="_blank">
                                     <p>
                                         VARIANTE ${nombreSkuId} <br> 
-                                        <b>SKU ID ${sku.sku}</b><br>
-                                        <span class="sku-availability">${sku.available ? "✅ Stock disponible" : "❌ Fuera de stock"}</span>
+                                        <b>SKU ID ${sku.itemId}</b><br>
+                                        <span class="sku-availability">${sku.sellers[0].commertialOffer.IsAvailable ? `✅ ${sku.sellers[0].commertialOffer.AvailableQuantity} unidades en stock` : "❌ Fuera de stock"}</span>
                                     </p>
-                                    <img class=${sku.available} src="${sku.image}"/>                           
+                                    <img class=${sku.sellers[0].commertialOffer.IsAvailable} src="${sku.images[0].imageUrl}"/>                           
                                 </a>
                             </div>`;
-                        listadoElemento.insertAdjacentHTML('afterbegin',item);
+                        listadoElemento.insertAdjacentHTML('beforeend',item);
                     })
-                })
-                .catch(err => console.error(err));   
             }
         })
         .catch(err => console.error(err));
 }
 
 
+const handleContextWidget = () => { 
+    const widget = document.querySelector('.contenedor-extension.context');
+    !widget && renderContextWidget();
+}
+
+const removeContextWidget = () => {
+    const widget = document.querySelector('.contenedor-extension.context');
+    const listado = document.querySelector('.listado-context');
+    widget && widget.remove();
+    listado && listado.remove();
+}
+
+const renderContextWidget = () => {
+    const body = document.querySelector('body');
+    const renderContainer = document.querySelector('.render-provider');
+
+    // Botón para desplegar Context
+    const elemento =/*html*/`
+        <div class="contenedor-extension context">
+            <img src="${contextIcon}" />
+            <p class="descripcion">Ver datos del producto</p>
+        </div>
+        `;
+    body.insertAdjacentHTML('beforeend',elemento);
+    const botonContext = document.querySelector('.contenedor-extension.context');
+    botonContext.addEventListener('click',function(){
+        listadoElemento.classList.toggle('activo');
+        renderContainer.classList.toggle('out-of-focus');
+    })
+
+    // Desplegable de Context
+    const listado =/*html*/ `
+    <div class="listado-context">
+        <div class="close-container">
+            <span>Datos del Producto</span>
+            <img src="${closeIcon}" alt="" />
+        </div>
+    </div>`;
+
+    if(!document.querySelector('.listado-context')){
+        body.insertAdjacentHTML('beforeend',listado);
+        const closeButton = document.querySelector('.listado-context .close-container img');
+        closeButton.addEventListener('click', function(){
+            listadoElemento.classList.toggle('activo');
+            renderContainer.classList.toggle('out-of-focus');
+        })
+    }
+    const listadoElemento = document.querySelector('.listado-context');
+
+    // Fetch de datos del producto
+    fetch(`/api/catalog_system/pub/products/search${window.location.pathname}`, options)
+        .then(response => response.json())
+        .then(response => {
+                const productName = response[0]?.productName;
+                const brand = response[0]?.brand;
+                const brandId = response[0]?.brandId;
+                const productId = response[0]?.productId;
+                const categories = response[0]?.categories;
+                const productClusters = Object.entries(response[0]?.productClusters);
+                const allSpecifications = response[0]?.allSpecifications?.map(specification => 
+                    `${specification}&&${response[0][specification]}`.split('&&')
+                );
+
+                item = /*html*/`
+                    <div class="datos-contexto">
+                        <div class="data-list">
+                            <span class="data-key">Nombre del Producto</span>
+                            <span class="data-value">${productName}</span>
+                        </div>
+
+                        <div class="data-list">
+                            <span class="data-key">Brand</span>
+                            <span class="data-value">${brand} (${brandId})</span>
+                        </div>
+                        
+
+                        <div class="data-list">
+                            <span class="data-key">ID de Producto</span>
+                            <span class="data-value">${productId}</span>
+                        </div>
+
+                        <div class="data-list">
+                            <span class="data-key">Especificaciones asociadas</span>
+
+                            ${allSpecifications && allSpecifications.length ?
+                                    allSpecifications.map(specification => `<p class="data-array-item"> <span class="data-array-item-title">${specification[0]}</span>: ${specification[1]}</p class="data-array-item">`).join('')
+                                :
+                                    `<p>No posee</p>`
+                            }
+                        </div>                          
+
+                        <div class="data-list">
+                            <span class="data-key">Categorías asociadas</span>
+                            ${categories && categories.length
+                                ?
+                                    categories.map(category =>
+                                    `<p class="data-array-item">
+                                        <a href="${window.location.origin}${sanitizeCategory(category)}" target="_blank">${category}</a>
+                                    </p>`).join('')
+                                :
+                                    `<p>No posee</p>`
+                            }
+                        </div>
+
+                        <div class="data-list">
+                            <span class="data-key">Colecciones asociadas</span>
+                            ${productClusters && productClusters.length
+                                ?
+                                    productClusters.map(cluster => `
+                                        <p class="data-array-item"> 
+                                            <a href="${window.location.origin}/${cluster[0]}?map=productClusterIds" target="_blank">${cluster[0]}</a> : ${cluster[1]}
+                                        </p>`).join('')
+                                                               
+                                :
+                                    `<p>No posee</p>`
+                            }
+                        </div>                      
+                    </div>`;
+                listadoElemento.insertAdjacentHTML('beforeend',item);
+            }
+        )
+        .catch(err => console.error(err));
+}
+
 const handleProductWidget = () => { 
-    const widget = document.querySelector('.contenedor-extension.producto');
-    widget ? (widget.href = getProductUrl()) : renderProductWidget() ;
+    const vendor = window.location.host;
+    const currentUrl = window.location.pathname;
+    const endpoint = `https://${vendor}/api/catalog_system/pub/products/search${currentUrl}`;
+
+    fetch(endpoint,options)
+        .then(response => response.json())
+        .then(response => {
+            const productId = response[0].productId;
+            renderProductWidget(`https://${vendor}/admin/Site/ProdutoForm.aspx?id=${productId}`)
+    });
 }
 
 const removeProductWidget = () => {
@@ -86,23 +237,21 @@ const removeProductWidget = () => {
     widget && widget.remove();
 }
 
-const getProductUrl = () => {
-    const rawProductData = document.querySelector('.vtex-product-context-provider script[type="application/ld+json"]');
-    const jsonData = JSON.parse(rawProductData.innerHTML);
-    const sku = jsonData.mpn;
-    const vendor = window.location.host;
-    return (`https://${vendor}/admin/Site/ProdutoForm.aspx?id=${sku}`);
-}
+
 
 // Renderizado de Widget en el DOM
-const renderProductWidget = () => {
+const renderProductWidget = (url) => {
     const body = document.querySelector('body');
+
     const elemento = /*html*/ `
-        <a href="${getProductUrl()}" target="_blank" class="contenedor-extension producto">
-            <img src="${productIcon}" />
-            <p class="descripcion">Ver Producto General</p>
-        </a>
-        `;
+    <a href="${url}" target="_blank" class="contenedor-extension producto">
+        <img src="${productIcon}" />
+        <p class="descripcion">
+            <span>Editar Producto</span>
+            <img src="${externalLinkIcon}"/>
+        </p>
+    </a>
+    `;
 
     body.insertAdjacentHTML('beforeend',elemento);
 }
@@ -120,10 +269,13 @@ const getSiteEditorUrl = () => {
 // Renderizado de Widget en el DOM
 const renderSiteEditorWidget = () => {
     const body = document.querySelector('body');
-    const elemento = `
+    const elemento = /*html*/`
         <a href="${getSiteEditorUrl()}" target="_blank" class="contenedor-extension pagina">
             <img src="${editIcon}" />
-            <p class="descripcion">Ver en Site Editor</p>
+            <p class="descripcion">
+                <span>Editar en Site Editor</span>
+                <img src="${externalLinkIcon}"/>
+            </p>
         </a>`;
     body.insertAdjacentHTML('beforeend',elemento);
 }
@@ -163,10 +315,13 @@ const getCheckoutUrl = () => {
 // Renderizado de Widget en el DOM
 const renderCheckoutWidget = () => {
     const body = document.querySelector('body');
-    const elemento = `
+    const elemento = /*html*/`
         <a href="${getCheckoutUrl()}" target="_blank" class="contenedor-extension checkout">
             <img src="${editIcon}" />
-            <p class="descripcion">Abrir Checkout UI Custom</p>
+            <p class="descripcion">
+                <span>Editar Checkout UI Custom</span>
+                <img src="${externalLinkIcon}"/>
+            </p>
         </a>`;
     body.insertAdjacentHTML('beforeend',elemento);
 }
@@ -186,11 +341,6 @@ const removeCheckoutOrderFormWidget = () => {
 }
 
 const fetchOrderForm = () => {
-    const options = {
-        method: 'GET',
-        headers: {'Content-Type': 'application/json', Accept: 'application/json'}
-    };
-
     fetch(`/api/checkout/pub/orderForm/`, options)
     .then(response => response.json())
     .then(response => {

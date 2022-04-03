@@ -1,2 +1,3 @@
 handleProductWidget();
+handleContextWidget();
 handleSkuWidget();
