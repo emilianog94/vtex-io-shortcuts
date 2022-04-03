@@ -1,47 +1,42 @@
-# VTEX IO Shortcuts
+# **VTEX IO Shortcuts**
 
-VTEX IO Shortcuts is a free open-source **Google Chrome Extension** which features a set of shortcuts in order to make your VTEX IO experience faster. 
+![](https://i.imgur.com/AUoSgNy.png)
 
-Get it from the [Chrome Web Store](https://chrome.google.com/webstore/detail/vtex-io-shortcuts/hmpjjdpnijjloflnedjeapccfcpijgdj?hl=es&authuser=1)
+VTEX IO Shortcuts es una extensión gratuita de código abierto para Google Chrome que te genera accesos directos para ahorrar tiempo trabajando en entornos de VTEX IO.
 
-This extension adds widgets at the bottom left corner of your current tab whenever you are on a myvtex.com domain.
+Descargala en [Chrome Web Store](https://chrome.google.com/webstore/detail/vtex-io-shortcuts/hmpjjdpnijjloflnedjeapccfcpijgdj?hl=es&authuser=1)
+
 
 <br /> 
 
-Currently supporting the following shortcuts:
+___
 
-## Site Editor Shortcuts
-Site Editor shortcut for every page
-
-![](https://i.imgur.com/WJrdGPJ.gif)
+## **Funcionalidades**
 
 
-<br /> <br /> 
+### **Globales**
+- Widget con acceso a Site Editor desde la página que estás viendo
 
-## Product Data Shortcuts
-Access to the global ProductID whenever you are browsing a **store.product** template
+![](https://i.imgur.com/lgEaKmF.png)
 
-![](https://i.imgur.com/asaeY2M.gif)
+<br /> 
 
-<br /> <br /> 
+___
+### **Sección Productos**
+- Widget con acceso a datos del producto en una barra lateral
+- Widget con acceso a datos de variantes de SKU con links de acceso para administrador
+- Widget con acceso de administrador para editar un producto
 
-
-## Variation SKU's shortcuts
-Access to any variation SKU whenever you are browsing a **store.product** template. Variations SKUs data is fetched using the public Catalogue Variations API.
-
-![](https://i.imgur.com/aBxRaEh.gif)
-
-<br /> <br /> 
+![](https://i.imgur.com/tFra8kK.png)
+![](https://i.imgur.com/zxi7jCw.png)
 
 
-## OrderForm JSON Shortcut
-Read the OrderForm as a JSON object while browsing the checkout/cart page
+<br /> 
 
-![](https://i.imgur.com/C1ENukD.gif)
+___
+### **Sección Checkout**
+- Widget con acceso a objeto orderForm en formato JSON
+- Widget con acceso de administrador para editar el checkout (Checkout UI Custom)
 
-<br /> <br /> 
+![](https://i.imgur.com/cvVyw5M.png)
 
-## Checkout UI Custom Shortcut
-Access to Checkout UI Custom whenever you are on the checkout/cart page
-
-![](https://i.imgur.com/ZqmDx9N.gif)
