@@ -34,7 +34,6 @@ const getSkuUrl = (sku) => {
 const renderSkuWidget = () => {
     const body = document.querySelector('body');
     const renderContainer = document.querySelector('.render-provider');
-
     // Botón para desplegar SKUs
     const elemento =/*html*/`
         <div class="contenedor-extension sku">
@@ -47,6 +46,13 @@ const renderSkuWidget = () => {
     botonSku.addEventListener('click',function(){
         listadoElemento.classList.toggle('activo');
         renderContainer.classList.toggle('out-of-focus');
+        setTimeout(function(){
+            const contenedoresExt = document.querySelectorAll('.contenedor-extension:not(.sku)');
+            contenedoresExt.forEach( contenedor => {
+                contenedor.classList.toggle('out-of-focus');
+            })
+        },1)
+
     })
 
     // Desplegable de SKUs
@@ -64,6 +70,12 @@ const renderSkuWidget = () => {
         closeButton.addEventListener('click', function(){
             listadoElemento.classList.toggle('activo');
             renderContainer.classList.toggle('out-of-focus');
+            setTimeout(function(){
+                const contenedoresExt = document.querySelectorAll('.contenedor-extension:not(.sku)');
+                contenedoresExt.forEach( contenedor => {
+                    contenedor.classList.toggle('out-of-focus');
+                })
+            },1)
         })
     }
     const listadoElemento = document.querySelector('.listado-skus');
@@ -123,6 +135,12 @@ const renderContextWidget = () => {
     botonContext.addEventListener('click',function(){
         listadoElemento.classList.toggle('activo');
         renderContainer.classList.toggle('out-of-focus');
+        setTimeout(function(){
+            const contenedoresExt = document.querySelectorAll('.contenedor-extension:not(.context)');
+            contenedoresExt.forEach( contenedor => {
+                contenedor.classList.toggle('out-of-focus');
+            })
+        },1)
     })
 
     // Desplegable de Context
@@ -140,6 +158,12 @@ const renderContextWidget = () => {
         closeButton.addEventListener('click', function(){
             listadoElemento.classList.toggle('activo');
             renderContainer.classList.toggle('out-of-focus');
+            setTimeout(function(){
+                const contenedoresExt = document.querySelectorAll('.contenedor-extension:not(.context)');
+                contenedoresExt.forEach( contenedor => {
+                    contenedor.classList.toggle('out-of-focus');
+                })
+            },1)
         })
     }
     const listadoElemento = document.querySelector('.listado-context');
